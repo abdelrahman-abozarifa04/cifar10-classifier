@@ -28,23 +28,29 @@ CLASS_NAMES = ['airplane', 'automobile', 'bird', 'cat', 'deer',
                'dog', 'frog', 'horse', 'ship', 'truck']
 
 # Load the trained model
-MODEL_PATH = 'cifar10_cnn_model.keras'
 model = None
 
 def load_model():
     """Load the trained CNN model"""
     global model
     try:
-        if os.path.exists(MODEL_PATH):
-            model = tf.keras.models.load_model(MODEL_PATH)
-            print(f"✓ Model loaded successfully from {MODEL_PATH}")
-        elif os.path.exists('cifar10_cnn_model.h5'):
-            model = tf.keras.models.load_model('cifar10_cnn_model.h5')
-            print("✓ Model loaded from h5 format")
+        # Debugging: Print current directory and files
+        print(f"DEBUG: Current Working Directory: {os.getcwd()}")
+        print(f"DEBUG: Files in directory: {os.listdir('.')}")
+        
+        model_path = 'cifar10_cnn_model.keras'
+        if not os.path.exists(model_path):
+            print(f"DEBUG: {model_path} not found, checking for .h5")
+            model_path = 'cifar10_cnn_model.h5'
+            
+        if os.path.exists(model_path):
+            print(f"DEBUG: Loading model from: {os.path.abspath(model_path)}")
+            model = tf.keras.models.load_model(model_path)
+            print(f"✓ Model loaded successfully from {model_path}")
+            return True
         else:
             print("⚠ Warning: Model file not found. Please train and save the model first.")
             return False
-        return True
     except Exception as e:
         print(f"✗ Error loading model: {str(e)}")
         return False
