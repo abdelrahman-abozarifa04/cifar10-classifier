@@ -12,6 +12,21 @@ import base64
 import os
 from werkzeug.utils import secure_filename
 
+# Memory optimization for free tier deployment
+try:
+    # Disable GPU to save memory (we don't need it for simple inference)
+    tf.config.set_visible_devices([], 'GPU')
+    print("✓ GPU disabled for memory optimization")
+except:
+    pass
+
+# Configure CPU threads to avoid resource contention
+try:
+    tf.config.threading.set_inter_op_parallelism_threads(1)
+    tf.config.threading.set_intra_op_parallelism_threads(1)
+except:
+    pass
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 app.config['UPLOAD_FOLDER'] = 'uploads'
