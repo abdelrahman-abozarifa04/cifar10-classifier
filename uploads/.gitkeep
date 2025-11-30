@@ -1,0 +1,4 @@
+# Uploads folder
+
+This folder is used to temporarily store uploaded images.
+The folder is created automatically by the Flask application.

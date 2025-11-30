@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIFAR-10 Image Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>CIFAR-10 Classifier</h1>
+                </div>
+                <div class="status-indicator {% if model_loaded %}active{% endif %}">
+                    <span class="status-dot"></span>
+                    <span class="status-text">{% if model_loaded %}Model Ready{% else %}Model Not Loaded{% endif %}</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="intro-section">
+                <h2>AI-Powered Image Classification</h2>
+                <p>Upload an image and let our CNN model identify what it contains. Trained on CIFAR-10 dataset with 10 different classes.</p>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <div class="upload-box" id="uploadBox">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h3>Drop your image here</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-folder-open"></i> Choose Image
+                    </button>
+                </div>
+
+                <!-- Image Preview -->
+                <div class="preview-section" id="previewSection" style="display: none;">
+                    <div class="preview-image-container">
+                        <img id="previewImage" src="" alt="Preview">
+                        <button class="btn-close" onclick="resetUpload()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-success btn-predict" id="predictBtn" onclick="predictImage()">
+                        <i class="fas fa-magic"></i> Classify Image
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing image...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none;">
+                <div class="result-card">
+                    <div class="result-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Classification Results</h3>
+                    </div>
+                    
+                    <div class="main-prediction">
+                        <div class="prediction-icon">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <div class="prediction-content">
+                            <span class="prediction-label">Predicted Class</span>
+                            <h2 id="predictedClass">-</h2>
+                        </div>
+                        <div class="confidence-badge">
+                            <span id="confidenceValue">0%</span>
+                            <span class="confidence-label">Confidence</span>
+                        </div>
+                    </div>
+
+                    <div class="probability-bars">
+                        <h4>All Class Probabilities</h4>
+                        <div id="probabilityBars"></div>
+                    </div>
+                </div>
+
+                <button class="btn btn-secondary btn-try-another" onclick="resetUpload()">
+                    <i class="fas fa-redo"></i> Try Another Image
+                </button>
+            </div>
+
+            <!-- Error Message -->
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p id="errorText"></p>
+                </div>
+                <button class="btn-close-error" onclick="hideError()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </main>
+
+        <!-- Class Info Section -->
+        <section class="class-info">
+            <h3><i class="fas fa-info-circle"></i> Supported Classes</h3>
+            <div class="class-grid">
+                <div class="class-item"><i class="fas fa-plane"></i> Airplane</div>
+                <div class="class-item"><i class="fas fa-car"></i> Automobile</div>
+                <div class="class-item"><i class="fas fa-dove"></i> Bird</div>
+                <div class="class-item"><i class="fas fa-cat"></i> Cat</div>
+                <div class="class-item"><i class="fas fa-deer"></i> Deer</div>
+                <div class="class-item"><i class="fas fa-dog"></i> Dog</div>
+                <div class="class-item"><i class="fas fa-frog"></i> Frog</div>
+                <div class="class-item"><i class="fas fa-horse"></i> Horse</div>
+                <div class="class-item"><i class="fas fa-ship"></i> Ship</div>
+                <div class="class-item"><i class="fas fa-truck"></i> Truck</div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Built with TensorFlow & Flask | CNN Model trained on CIFAR-10 Dataset</p>
+            <p class="author">© 2025 - Image Classification Project</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
