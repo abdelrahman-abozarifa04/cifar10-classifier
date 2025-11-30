@@ -44,7 +44,10 @@ def load_model():
             model_path = 'cifar10_cnn_model.h5'
             
         if os.path.exists(model_path):
-            print(f"DEBUG: Loading model from: {os.path.abspath(model_path)}")
+            size = os.path.getsize(model_path)
+            print(f"DEBUG: Found model file at {os.path.abspath(model_path)}")
+            print(f"DEBUG: File size: {size} bytes ({size/1024/1024:.2f} MB)")
+            
             model = tf.keras.models.load_model(model_path)
             print(f"✓ Model loaded successfully from {model_path}")
             return True
